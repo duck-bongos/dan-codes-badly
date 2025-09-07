@@ -1,0 +1,138 @@
+/* 
+div ul {
+    max-height: 60px;
+    
+    display: flex;
+    list-style-type: none;
+    text-decoration: none;
+}
+
+div .me ul li {
+    display: block;
+    text-decoration: none;
+    padding: 14px 16px 14px 16px;
+    justify-content: left;
+    display: block;
+    color: green;
+}
+
+div .nav {
+    justify-content: right;
+    float: right;
+}
+
+div .nav ul li {
+    display: block;
+    justify-content: right;
+    float: right;
+    text-decoration: none;
+    padding: 14px 16px 14px 16px;
+} */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    height: 100vh;
+}
+
+.nav-btn {
+    text-decoration: none;
+    color: black;
+    /* float: right */
+}
+
+/* a {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+} */
+
+/* button hover effect */
+a:hover {
+    background-color: #dd6a6a;
+}
+
+#content {
+    border: 2px dashed #ccc;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+div #home-content {
+    display: flex;
+    justify-content: center;
+
+    margin: 10px;
+    padding: 10px;
+    flex-direction: column;
+    height: 100%;
+}
+
+.page-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+.page-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.profile-img {
+    display: flex;
+    /* flex-direction: column; */
+    padding: 15px;
+    margin-left: 50px;
+    margin-right: 50px;
+    max-width: 40%;
+    width: 90%;
+
+
+}
+
+
+#img-profile {
+    width: 30%;
+    height: 30%;
+    justify-content: center;
+    align-items: center;
+}
+
+div.navigation {
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+    max-width: 1360px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 2%;
+    color: #fff;
+    display: flex;
+    /* flex-direction: column; */
+}
+
+#img-logo {
+    width: 10%;
+    height: 10%;
+    justify-content: left;
+}
+
+
+nav a {
+    padding: 5px 5px 5px 5px;
+}
