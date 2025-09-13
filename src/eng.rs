@@ -35,28 +35,28 @@ where
     f64: From<V>,
     f64: From<W>,
 {
-    pub fn new(protein: T, calories: U, cost: V, servings: W, name: String) -> GroceryItem {
-        // need to figure out how to panic and raise errors back to UI.
-        let _protein: OrderedFloat<f64> = OrderedFloat(protein.into());
-        let _calories: OrderedFloat<f64> = OrderedFloat(calories.into());
-        let _cost: OrderedFloat<f64> = OrderedFloat(cost.into());
-        let _servings: OrderedFloat<f64> = OrderedFloat(servings.into());
-        let _leanness: OrderedFloat<f64> = calc_leanness(&_protein, &_calories);
-        let _ppd: OrderedFloat<f64> = calc_protein_per_dollar(&_protein, &_cost, &_servings);
-        let _lpd: OrderedFloat<f64> =
-            calc_leanness_per_dollar(&_protein, &_calories, &_cost, &_servings);
+    // pub fn new(protein: T, calories: U, cost: V, servings: W, name: String) -> GroceryItem {
+    //     // need to figure out how to panic and raise errors back to UI.
+    //     let _protein: OrderedFloat<f64> = OrderedFloat(protein.into());
+    //     let _calories: OrderedFloat<f64> = OrderedFloat(calories.into());
+    //     let _cost: OrderedFloat<f64> = OrderedFloat(cost.into());
+    //     let _servings: OrderedFloat<f64> = OrderedFloat(servings.into());
+    //     let _leanness: OrderedFloat<f64> = calc_leanness(&_protein, &_calories);
+    //     let _ppd: OrderedFloat<f64> = calc_protein_per_dollar(&_protein, &_cost, &_servings);
+    //     let _lpd: OrderedFloat<f64> =
+    //         calc_leanness_per_dollar(&_protein, &_calories, &_cost, &_servings);
 
-        GroceryItem {
-            protein: _protein,
-            calories: _calories,
-            cost: _cost,
-            servings: _servings,
-            name: name,
-            leanness: _leanness,
-            ppd: _ppd,
-            lpd: _lpd,
-        }
-    }
+    //     GroceryItem {
+    //         protein: _protein,
+    //         calories: _calories,
+    //         cost: _cost,
+    //         servings: _servings,
+    //         name: name,
+    //         leanness: _leanness,
+    //         ppd: _ppd,
+    //         lpd: _lpd,
+    //     }
+    // }
 
     pub fn to_grocery(self) -> GroceryItem {
         let _protein: OrderedFloat<f64> = OrderedFloat(self.protein.into());
@@ -160,30 +160,5 @@ pub fn calc_leanness_per_dollar(
         panic!("Result is not a number (NaN).");
     } else {
         result
-    }
-}
-
-pub fn show_leanness(arr: &mut Vec<GroceryItem>) -> &mut Vec<GroceryItem> {
-    arr.sort_by(|a, b| a.leanness.cmp(&b.leanness));
-    tracing::debug!("\nLeanness scores - Lower is Better");
-    // for _item in &arr {
-    //     tracing::debug!("{} | {:.2} ", _item, &_item.leanness);
-    // }
-    arr
-}
-
-pub fn show_leanness_per_dollar(arr: &mut Vec<GroceryItem>) {
-    arr.sort_by(|a, b| a.lpd.cmp(&b.lpd));
-    println!("\nLeanness per dollar");
-    for _item in arr {
-        println!("{} | {:.2} ", _item, &_item.lpd);
-    }
-}
-
-pub fn show_protein_per_dollar(arr: &mut Vec<GroceryItem>) {
-    arr.sort_by(|a, b| b.ppd.cmp(&a.ppd));
-    println!("\nProtein (g) per dollar");
-    for _item in arr {
-        println!("{} | {:.2} ", _item, &_item.ppd);
     }
 }

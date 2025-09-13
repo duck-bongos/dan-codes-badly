@@ -105,13 +105,14 @@ fn Home() -> Element {
     rsx! {
         h1 { "Dan" }
         img { src: "{PROFILE}" }
-        img { src: "{TOTODILE}"}
+        img { src: "{TOTODILE}" }
     }
 }
 
 #[component]
 fn About() -> Element {
-    rsx! { h1 { "About Me" }
+    rsx! {
+        h1 { "About Me" }
         AboutMe {}
 
 
@@ -133,36 +134,36 @@ fn Header() -> Element {
     rsx! {
 
 
-            // div { class: "navbar",
+        // div { class: "navbar",
 
-            //     div {
-            //         class: "logo",
-            //         ul {
-            //             li { img { src: "{LOGO}"} }
-            //             li {"Dan"}
+        //     div {
+        //         class: "logo",
+        //         ul {
+        //             li { img { src: "{LOGO}"} }
+        //             li {"Dan"}
 
-            //         }
+        //         }
 
-            //     }
-            //     div {
-            //         class: "navigation",
-            //         nav {
-            //             class: "nav",
-            //             ul {
-            //                 li {
-            //                     Link { to: Route::Home {}, "Home" }
-            //                 }
-            //                 li {
-            //                     Link { to: Route::About {}, "About Me" }
-            //                 }
-            //                 li {
-            //                     Link { to: Route::BlogList {  }, "Blog" }
-            //                 }
-            //             }
-            //         }
-            //     }
+        //     }
+        //     div {
+        //         class: "navigation",
+        //         nav {
+        //             class: "nav",
+        //             ul {
+        //                 li {
+        //                     Link { to: Route::Home {}, "Home" }
+        //                 }
+        //                 li {
+        //                     Link { to: Route::About {}, "About Me" }
+        //                 }
+        //                 li {
+        //                     Link { to: Route::BlogList {  }, "Blog" }
+        //                 }
+        //             }
+        //         }
+        //     }
 
-            // }
+        // }
 
         Outlet::<Route> {}
     }
@@ -178,7 +179,9 @@ fn Blog() -> Element {
 
 #[component]
 fn BlogPost(name: String) -> Element {
-    rsx! { h2 { "Blog Post: {name}" } }
+    rsx! {
+        h2 { "Blog Post: {name}" }
+    }
 }
 
 #[component]
@@ -194,7 +197,9 @@ fn PageNotFound(route: Vec<String>) -> Element {
 fn NavBar() -> Element {
     rsx! {
         nav {
-            ul { li { "links" } }
+            ul {
+                li { "links" }
+            }
         }
         // The Outlet component will render child routes (In this case just the Home component) inside the Outlet component
         Outlet::<Route> {}
@@ -206,14 +211,15 @@ fn App() -> Element {
     rsx! {
         document::Stylesheet {
             // Urls are relative to your Cargo.toml file
-            href: asset!("/assets/main.css")
+            href: asset!("/assets/main.css"),
         }
 
-        header {
-            class: "my-header",
+        header { class: "my-header",
             div { class: "me",
                 ul {
-                    li { img { src: "{LOGO}"} }
+                    li {
+                        img { src: "{LOGO}" }
+                    }
                     li { "Dan" }
                 }
             }
@@ -221,20 +227,19 @@ fn App() -> Element {
             div { class: "nav",
                 ul {
                     // li { Link { to: Route::Home {}, "Home"}}
-                    li { Link { to: Route::Home {}, "Alex Horne" }}
+                    li {
+                        Link { to: Route::Home {}, "Alex Horne" }
+                    }
                     li { "Greg Davies" }
                     li { "Josh Widdicombe" }
                     li { "Kathryn Ryan" }
                 }
-        }
-        Router::<Route> {}
+            }
+            Router::<Route> {}
         }
         body {
 
-            div {
-                class: "container",
-                "Words"
-            }
+            div { class: "container", "Words" }
         }
     }
 }
