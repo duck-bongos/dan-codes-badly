@@ -2,8 +2,6 @@
 html, body {
     font-size: 110%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* height: 100%;
-    width: 100%; */
     
     /* overflow: hidden; */
     margin: 10px;
@@ -12,8 +10,6 @@ html, body {
       color: black;
       accent-color: #336699;
 }
-
-
 
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
@@ -40,9 +36,11 @@ html, body {
 .flex-container {
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
 }
 
 .div-form {
+    display: flex;
     max-width: 40%;
     flex-direction: column;
     margin-left: 2%;
@@ -75,9 +73,15 @@ html, body {
 }
 
 label {
-    display: inline;
+    display: flex;
+
     margin-right: 80px;
     margin-left: 80px
+}
+
+.sort-label {
+  display: flex;
+  text-align: center;
 }
 
 input {
@@ -91,7 +95,7 @@ input {
 }
 
 input[type=text] {
-    width: 250px;
+    max-width: 100%;
 }
 
 input[type=number] {
@@ -106,9 +110,22 @@ input:focus {
 
 .input-form-buttons {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     flex-direction: row;
     max-width: 100%;
+    gap: 10px;
+}
+
+@media (min-width: 400px) {
+  .input-form-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    max-width: 60%;
+    gap: 10px;
+}
 }
 
 .form-button {
@@ -123,7 +140,7 @@ input:focus {
 
 /* Horizontal layout for larger screens */
 @media (min-width: 768px) {
-  .responsive-form {
+  .flex-container {
     flex-direction: row; /* Change to horizontal layout */
     flex-wrap: wrap; /* Allow items to wrap to the next line */
     align-items: flex-end; /* Align items to the bottom */

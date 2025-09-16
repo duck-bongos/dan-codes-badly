@@ -4,11 +4,37 @@ use dioxus::prelude::*;
 use eng::UxItem;
 
 use crate::eng::GroceryItem;
-// #[derive(PartialEq, Clone)]
-// struct DogAppProps {
-//     breed: String,
-// }
-pub const CSS: Asset = asset!("/assets/thing.css");
+
+pub const CSS: Asset = asset!("/assets/main.css");
+static RUST: Asset = asset!(
+    "/assets/rust-logo-png-transparent.png",
+    ImageAssetOptions::new()
+        // You can set the image size in pixels at compile time to send the smallest possible image to the client
+        .with_size(ImageSize::Manual {
+            width: 50,
+            height: 50
+        })
+        // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
+        .with_format(ImageFormat::Png)
+);
+static DIOXUS: Asset = asset!(
+    "/assets/favicon.ico",
+    ImageAssetOptions::new()
+        .with_size(ImageSize::Manual {
+            width: 50,
+            height: 50
+        })
+        .with_format(ImageFormat::Png)
+);
+static HOME: Asset = asset!(
+    "/assets/home.png",
+    ImageAssetOptions::new()
+        .with_size(ImageSize::Manual {
+            width: 25,
+            height: 25,
+        })
+        .with_format(ImageFormat::Png)
+);
 
 #[derive(Clone)]
 struct TitleState(String);
@@ -21,25 +47,6 @@ fn Title() -> Element {
     }
 }
 
-#[component]
-fn DoItem() -> Element {
-    rsx! {
-        li { "item" }
-    }
-}
-
-#[component]
-fn ProteinItems(arr: Vec<GroceryItem>) -> Element {
-    rsx! {
-
-        ol { class: "output-items",
-            for item in &arr {
-                li { "{item}" }
-            }
-        }
-    }
-}
-
 pub fn app() -> Element {
     let mut name: Signal<String> = use_signal(|| String::from(""));
     let mut protein = use_signal(|| 0.0);
@@ -47,151 +54,180 @@ pub fn app() -> Element {
     let mut cost = use_signal(|| 0.0);
     let mut servings = use_signal(|| 1.0);
     let mut grocery_items: Signal<Vec<GroceryItem>> = use_signal(|| vec![]);
-    let mut sort_label: Signal<String> = use_signal(|| {
-        String::from(
-            "Leanness = Calories / Protein. Lower = Leaner. Chicken Breast is approximately 5.51",
-        )
-    });
+    let mut sort_label: Signal<String> = use_signal(|| String::from(""));
+    let mut numerator: Signal<String> = use_signal(|| String::from(""));
+    let mut denominator: Signal<String> = use_signal(|| String::from(""));
+    let mut sort_label_descriptor: Signal<String> = use_signal(|| String::from(""));
+    let mut leanness: Signal<bool> = use_signal(|| false);
+    let mut protein_per_dollar: Signal<bool> = use_signal(|| false);
 
     use_context_provider(|| TitleState("Protein Comparison Calculator".to_string()));
 
     rsx! {
         document::Stylesheet { href: CSS }
+
+        div { class: "dcb-com",
+            a {
+                href: "https://dan-codes-badly.com/",
+                target: "_blank",
+                img { src: HOME}
+            }
+        }
         Title {}
 
         div { class: "flex-container",
             div { class: "div-form",
                 h3 { "Input Factors" }
-                form { class: "responsive-form",
-                    div { class: "form-group",
+                div { class: "form-group",
+                    div { class: "floating-label",
                         label { r#for: "name", "Protein Source Name:" }
-                        input {
-                            r#type: "text",
-                            id: "name",
-                            name: "name",
-                            value: "{name}",
-                            oninput: move |e| name.set(e.value()),
-                        }
                     }
-                    div { class: "form-group",
-                        label { r#for: "protein", "Protein (g):" }
-                        input {
-                            r#type: "number",
-                            id: "protein",
-                            name: "protein",
-                            value: protein,
-                            oninput: move |e| {
-                                let _is = e.value();
-                                match _is.parse::<f64>() {
-                                    Ok(parsed_val) => protein.set(parsed_val),
-                                    Err(v) => tracing::info!("{v} Naaaahhhh"),
-                                }
-                            },
-                        }
+                    input {
+                        r#type: "text",
+                        id: "name",
+                        name: "name",
+                        value: "{name}",
+                        style: "max-width: 95%",
+                        oninput: move |e| { name.set(e.value()) },
                     }
                 }
                 div { class: "form-group",
-                    label { r#for: "calories", "Calories per Serving:" }
+                    div { class: "floating-label",
+                        label { r#for: "protein", "Protein per serving (g):" }
+                    }
                     input {
                         r#type: "number",
-                        id: "calories",
-                        name: "calories",
-                        value: calories,
+                        id: "protein",
+                        name: "protein",
+                        value: protein,
+                        style: "max-width: 95%",
                         oninput: move |e| {
                             let _is = e.value();
                             match _is.parse::<f64>() {
-                                Ok(parsed_val) => calories.set(parsed_val),
-                                Err(_) => tracing::info!("Naaaahhhh"),
+                                Ok(parsed_val) => {
+                                    protein.set(parsed_val);
+                                }
+                                Err(_) => tracing::info!("Protein must be above 0"),
                             }
                         },
                     }
                 }
                 div { class: "form-group",
-                    label { r#for: "cost", "Total Cost:" }
+                    div { class: "floating-label",
+                        label { r#for: "calories", "Calories per Serving:" }
+                    }
+                    input {
+                        r#type: "number",
+                        id: "calories",
+                        name: "calories",
+                        value: calories,
+                        style: "max-width: 95%",
+                        oninput: move |e| {
+                            let _is = e.value();
+                            match _is.parse::<f64>() {
+                                Ok(parsed_val) => calories.set(parsed_val),
+                                Err(_) => tracing::info!("Calories must be a number greater than 0."),
+                            }
+                        },
+                    }
+                }
+                div { class: "form-group",
+                    div { class: "floating-label",
+                        label { r#for: "cost", "Total Cost:" }
+                    }
                     input {
                         r#type: "number",
                         id: "cost",
                         name: "cost",
                         min: 0.01,
                         value: cost,
+                        style: "max-width: 95%",
                         oninput: move |e| {
                             let _is = e.value();
                             match _is.parse::<f64>() {
                                 Ok(parsed_val) => cost.set(parsed_val),
-                                Err(v) => tracing::info!("{v} Naaaahhhh"),
+                                Err(_) => tracing::info!("Cost must be greater than 0."),
                             }
                         },
                     }
                 }
                 div { class: "form-group",
 
-                    label { r#for: "servings", "Total Servings:" }
+                    div { class: "floating-label",
+                        label { r#for: "servings", "Total Servings:" }
+                    }
                     input {
                         r#type: "number",
                         id: "servings",
                         name: "servings",
                         value: servings,
+                        style: "max-width: 95%",
                         oninput: move |e| {
                             let _is = e.value();
                             match _is.parse::<f64>() {
                                 Ok(parsed_val) => servings.set(parsed_val),
-                                Err(v) => tracing::info!("{v} Naaaahhhh"),
+                                Err(_) => tracing::info!("Servings must be greater than 0."),
                             }
                         },
                     }
                 }
-                div { class: "input-form-buttons",
-                    input {
-                        class: "form-button",
-                        r#type: "submit",
-                        value: "Add",
-                        onclick: move |_| {
-                            let _uxi = UxItem {
-                                name: name(),
-                                protein: protein(),
-                                calories: calories(),
-                                cost: cost(),
-                                servings: servings(),
-                            }
-                                .to_grocery();
-                            grocery_items.push(_uxi);
-                            name.set(String::new());
-                            protein.set(0.0);
-                            calories.set(0.0);
-                            cost.set(0.0);
-                            servings.set(1.0);
-                        },
-                    }
-                    input {
-                        class: "form-button",
-                        r#type: "reset",
-                        value: "Clear",
-                        onclick: move |_| {
-                            name.set(String::new());
-                            protein.set(0.0);
-                            calories.set(0.0);
-                            cost.set(0.0);
-                            servings.set(1.0);
-                        },
-                    }
+
+
+            div { class: "input-form-buttons",
+                input {
+                    class: "form-button",
+                    r#type: "submit",
+                    value: "Add",
+                    onclick: move |_| {
+                        let _uxi = UxItem {
+                            name: name(),
+                            protein: protein(),
+                            calories: calories(),
+                            cost: cost(),
+                            servings: servings(),
+                        }
+                            .to_grocery();
+                        grocery_items.push(_uxi);
+                        name.set(String::new());
+                        protein.set(0.0);
+                        calories.set(0.0);
+                        cost.set(0.0);
+                        servings.set(1.0);
+                    },
+                }
+
+
+                input {
+                    class: "form-button clear-button",
+                    r#type: "reset",
+                    value: "Clear",
+                    onclick: move |_| {
+                        name.set(String::new());
+                        protein.set(0.0);
+                        calories.set(0.0);
+                        cost.set(0.0);
+                        servings.set(1.0);
+                    },
                 }
             }
+            }
+
 
             div { id: "protein-items", class: "div-form",
                 h3 { "Protein Items" }
-                h4 { "Decide how to Sort" }
                 div { class: "sort-label",
-                    h5 { class: "", "{sort_label}" }
-                }
-                input {
-                    class: "form-button",
-                    r#type: "reset",
-                    value: "Clear Items",
-                    onclick: move |_| {
-                        grocery_items.set(vec![]);
-                    },
-                }
+                p { "{sort_label}" }
+                div { class: "fraction",
+                div { class: "numerator", "{numerator}" }
+                div { class: "denominator", "{denominator}" }
+            }
+            p { "{sort_label_descriptor}" }
+
+
+        }
+
                 div { class: "input-form-buttons",
+
                     input {
                         class: "form-button",
                         r#type: "submit",
@@ -199,12 +235,12 @@ pub fn app() -> Element {
                         onclick: move |_| {
                             tracing::info!("Leanness: {:?}", grocery_items());
                             grocery_items.write().sort_by(|a, b| a.leanness.cmp(&b.leanness));
-                            sort_label
-                                .set(
-                                    String::from(
-                                        "Leanness = Calories / Protein. Lower = Leaner. Chicken Breast is approximately 5.51, ",
-                                    ),
-                                )
+                            sort_label.set(String::from("Leanness ="));
+                            numerator.set(String::from("Calories"));
+                            denominator.set(String::from("Protein"));
+                            // sort_label_descriptor.set(String::from("#1 Leaner than #2 etc"));
+                            leanness.set(true);
+                            protein_per_dollar.set(false);
                         },
                     }
                     input {
@@ -213,24 +249,74 @@ pub fn app() -> Element {
                         value: "Protein per Dollar",
                         onclick: move |_| {
                             tracing::info!("Protein per Dollar: {:?}", grocery_items());
-                            grocery_items.write().sort_by(|a, b| b.ppd.cmp(&a.ppd));
-                            sort_label
-                                .set(
-                                    String::from(
-                                        "Protein (g) multiplied by Servings all divided by total Cost.",
-                                    ),
-                                )
+                            grocery_items.write().sort_by(|a, b| a.ppd.cmp(&b.ppd));
+                            sort_label.set(String::from("Protein per Dollar ="));
+                            numerator.set(String::from("Protein * Servings"));
+                            denominator.set(String::from("Total Cost"));
+                            sort_label_descriptor.set(String::from(""));
+                            protein_per_dollar.set(true);
+                            leanness.set(false);
                         },
                     }
-                }
+                    input {
+                        class: "form-button clear-button",
+                        r#type: "reset",
+                        value: "Clear Items",
+                        onclick: move |_| {
+                            grocery_items.set(vec![]);
+                            numerator.set(String::from(""));
+                            denominator.set(String::from(""));
+                            sort_label_descriptor.set(String::from(""));
+                            sort_label.set(String::from(""));
+                            leanness.set(false);
+                            protein_per_dollar.set(false);
+                        },
 
-                ol {
-                    for item in grocery_items.read().iter() {
-                        li { "{item}" }
+                    }
+                }
+                div {
+                    class: "output-list",
+                    ol {
+                        if leanness() {
+                            for item in grocery_items.read().iter() {
+                                li {  "{item.name}" br {} em { "{item.calories} kCal / {item.protein}g" } }
+                            }
+                        } else if protein_per_dollar() {
+                            for item in grocery_items.read().iter().rev() {
+                                li {
+                                    "{item.name}" br {} em {" ( {item.protein}g * {item.servings} serv. ) / ${item.cost}"}
+                                }
+                            }
+                        } else {
+                            for item in grocery_items.read().iter() {
+                                li { "{item.name}" }
+                            }
+                        }
                     }
                 }
             }
+
+
+        div { class: "footer",
+            div { class: "footer-ack",
+                "Powered by"
+            }
+            a {
+                href: "https://www.rust-lang.org/",
+                target: "_blank",
+                img { src: RUST}
+            }
+            a {
+                href: "https://dioxuslabs.com/",
+                target: "_blank",
+                img { src: DIOXUS }
+            }
+            div { class: "footer-site-promotion",
+             em { "dan-codes-badly.com"} }
         }
+    }
+
+
     }
 }
 

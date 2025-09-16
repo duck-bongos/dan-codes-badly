@@ -1,138 +1,149 @@
-/* 
-div ul {
-    max-height: 60px;
+
+
+html {
+    margin: 1%;
+    padding: 3%;
+    background-color: #2A365A;
+    color: #dddddd;
+    border-color: #dddddd;
+    font-family: sans-serif;
+}
+
+html, body {
     
-    display: flex;
-    list-style-type: none;
-    text-decoration: none;
+    text-align: center;
+    list-style-position: inside;
 }
 
-div .me ul li {
-    display: block;
-    text-decoration: none;
-    padding: 14px 16px 14px 16px;
-    justify-content: left;
-    display: block;
-    color: green;
+h1 h2 h3 h4 h5 h6 {
+    font-family: monospace;
 }
 
-div .nav {
-    justify-content: right;
-    float: right;
+@media (prefers-color-scheme: dark) {
+    html, body {
+        background-color: #089a45;
+        color: #dddddd;
+        border-color: #dddddd;
+    }
 }
 
-div .nav ul li {
-    display: block;
-    justify-content: right;
-    float: right;
-    text-decoration: none;
-    padding: 14px 16px 14px 16px;
-} */
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 20px;
-    background-color: #f4f4f4;
-    height: 100vh;
+@media (prefers-color-scheme: light) {
+    html, body {
+        background-color: #089a45;
+        color: #111111;
+        border-color: #dddddd;
+    }
 }
 
-.nav-btn {
-    text-decoration: none;
-    color: black;
-    /* float: right */
+div.dcb-com {
+    top: 10px;
+    left: 10px;
+    position: absolute;
 }
 
-/* a {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-} */
-
-/* button hover effect */
-a:hover {
-    background-color: #dd6a6a;
+.flex-container {
+    gap: 5px;
+    max-width: 95%;
+    min-width: 50%;
+    margin: auto;
 }
 
-#content {
-    border: 2px dashed #ccc;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
+.subtitle {
+    overflow-wrap: word-wrap;
+    font-style: italic;
+    margin: 1%;
 }
 
-div #home-content {
-    display: flex;
-    justify-content: center;
-
-    margin: 10px;
-    padding: 10px;
-    flex-direction: column;
-    height: 100%;
+h3 {
+    font-size: large;
 }
 
-.page-title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    flex-direction: column;
+input {
+    border-radius: 8px;
 }
 
-.page-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    flex-direction: column;
-    padding-right: 10px;
-    padding-left: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
+input.clear-button {
+    background-color: #da1e37;
+    color: #eeeeee;
 }
 
-.profile-img {
-    display: flex;
-    /* flex-direction: column; */
-    padding: 15px;
-    margin-left: 50px;
-    margin-right: 50px;
-    max-width: 40%;
-    width: 90%;
+.div-form {
+    outline: auto;
+    margin: 1%;
+    padding: 1%;
+    gap: 5px;
+}
 
+.form-group label {
+    justify-items: left;
+    text-align: left;
+    max-width: 95%;
+}
 
+#name input#protein input#calories input#cost input#servings  {
+    max-width: 95%;
+}
+
+.form-group {
+    margin: 1%;
+    padding: 2%;
 }
 
 
-#img-profile {
-    width: 30%;
-    height: 30%;
-    justify-content: center;
-    align-items: center;
+div .sort-label p {
+    font-style: italic;
 }
 
-div.navigation {
-    width: 90%;
-    padding-left: 5%;
-    padding-right: 5%;
-    max-width: 1360px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 2%;
-    color: #fff;
-    display: flex;
-    /* flex-direction: column; */
+.output-list {
+    max-width: 90%;
+    text-align: center;
 }
 
-#img-logo {
-    width: 10%;
-    height: 10%;
-    justify-content: left;
+ol {
+    display: inline-block;
+    text-align: left;
 }
 
 
-nav a {
-    padding: 5px 5px 5px 5px;
+
+.fraction {
+    font-style: italic;
+
+  display: inline-flex; /* or flex */
+  flex-direction: column;
+  align-items: center; /* Centers numerator/denominator */
+}
+
+.numerator {
+  border-bottom: 1px solid #dddddd; /* The horizontal line */
+  padding-bottom: 2px; /* Space between number and line */
+  margin-bottom: 2px; /* Space between line and denominator */
+    font-style: italic;
+
+}
+
+div.footer {
+    margin-top: 5%;
+    margin-bottom: 2%;
+    margin-left: 1%;
+    margin-right: 1%;
+    padding: 2%;
+}
+
+div.footer-ack {
+    margin-bottom: 3%;
+}
+
+div.bottom-right
+{
+         
+    width: 50px; 
+    height: 50px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+span.italic-part  {
+    font-style: italic;
 }

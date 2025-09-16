@@ -1,6 +1,7 @@
 [application]
 
 [web.app]
+pre_compress = false
 
 # HTML title tag content
 title = "dan-codes-badly"
