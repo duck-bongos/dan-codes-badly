@@ -4,7 +4,7 @@ html {
     margin: 1%;
     padding: 3%;
     background-color: #2A365A;
-    color: #dddddd;
+    color: #eeeeee;
     border-color: #dddddd;
     font-family: sans-serif;
 }
@@ -19,11 +19,22 @@ h1 h2 h3 h4 h5 h6 {
     font-family: monospace;
 }
 
+#main {
+    margin: 4%;
+    padding: 4%;
+    border-radius: 8px;
+}
+
 @media (prefers-color-scheme: dark) {
     html, body {
-        background-color: #089a45;
-        color: #dddddd;
+        /* background-color: #115336; */
+        background-color: #003114;
+        color: #eee;
         border-color: #dddddd;
+    }
+
+    #main {
+        background-color: #004225;
     }
 }
 
@@ -35,17 +46,19 @@ h1 h2 h3 h4 h5 h6 {
     }
 }
 
-div.dcb-com {
-    top: 10px;
-    left: 10px;
-    position: absolute;
+div.instructions {
+    word-wrap: normal;
+}
+
+a {
+    color: #eeeeee;
 }
 
 .flex-container {
-    gap: 5px;
+    gap: 10px;
     max-width: 95%;
     min-width: 50%;
-    margin: auto;
+    /* margin: auto; */
 }
 
 .subtitle {
@@ -68,7 +81,7 @@ input.clear-button {
 }
 
 .div-form {
-    outline: auto;
+    /* outline: auto; */
     margin: 1%;
     padding: 1%;
     gap: 5px;

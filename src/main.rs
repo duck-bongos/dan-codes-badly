@@ -26,15 +26,6 @@ static DIOXUS: Asset = asset!(
         })
         .with_format(ImageFormat::Png)
 );
-static HOME: Asset = asset!(
-    "/assets/home.png",
-    ImageAssetOptions::new()
-        .with_size(ImageSize::Manual {
-            width: 25,
-            height: 25,
-        })
-        .with_format(ImageFormat::Png)
-);
 
 #[derive(Clone)]
 struct TitleState(String);
@@ -61,26 +52,26 @@ pub fn app() -> Element {
     let mut leanness: Signal<bool> = use_signal(|| false);
     let mut protein_per_dollar: Signal<bool> = use_signal(|| false);
 
-    use_context_provider(|| TitleState("Protein Comparison Calculator".to_string()));
+    use_context_provider(|| TitleState("Compare Protein Sources".to_string()));
 
     rsx! {
         document::Stylesheet { href: CSS }
 
-        div { class: "dcb-com",
-            a {
-                href: "https://dan-codes-badly.com/",
-                target: "_blank",
-                img { src: HOME}
+        Title {}
+
+        div {class: "instructions",
+            ol {
+                li { i {"Add protein sources to compare"} }
+                li { i {"Sort by leanness or protein-per-dollar"} }
             }
         }
-        Title {}
 
         div { class: "flex-container",
             div { class: "div-form",
                 h3 { "Input Factors" }
                 div { class: "form-group",
                     div { class: "floating-label",
-                        label { r#for: "name", "Protein Source Name:" }
+                        label { r#for: "name", "Protein Source Label:" }
                     }
                     input {
                         r#type: "text",
@@ -312,7 +303,8 @@ pub fn app() -> Element {
                 img { src: DIOXUS }
             }
             div { class: "footer-site-promotion",
-             em { "dan-codes-badly.com"} }
+                a { href: "https://dan-codes-badly.com", em { "dan-codes-badly.com"} }
+            }
         }
     }
 
