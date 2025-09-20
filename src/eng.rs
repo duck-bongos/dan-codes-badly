@@ -1,8 +1,3 @@
-// Protein
-// Calories
-// Cost
-// Servings = 1
-
 use core::panic;
 use ordered_float::OrderedFloat;
 use std::fmt::Display;

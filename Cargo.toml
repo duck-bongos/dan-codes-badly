@@ -9,7 +9,9 @@ edition = "2021"
 [dependencies]
 dioxus = { version = "0.6.3", features = ["router"] }
 dioxus-web = "0.6.3"
+navbar = { version = "0.0.2", features = ["dio"] }
 ordered-float = "5.0.0"
+serde = "1.0.225"
 tracing = "0.1.41"
 
 [features]
@@ -18,8 +20,6 @@ web = ["dioxus/web"]
 desktop = ["dioxus/desktop"]
 mobile = ["dioxus/mobile"]
 server = ["dioxus/server"]
-
-[profile]
 
 [profile.wasm-dev]
 inherits = "dev"
