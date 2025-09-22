@@ -16,8 +16,8 @@ static LOGO: Asset = asset!(
     ImageAssetOptions::new()
         // You can set the image size in pixels at compile time to send the smallest possible image to the client
         .with_size(ImageSize::Manual {
-            width: 71,
-            height: 48,
+            width: 60,
+            height: 40,
         })
         // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
         .with_format(ImageFormat::Png)
@@ -46,28 +46,27 @@ static DIOXUS: Asset = asset!(
 #[component]
 pub fn TopNav() -> Element {
     rsx! {
-        div {
-            class: "mobile-container",
             div {
                 class: "topnav",
-                Link {
-                    id: "logo-img",
-                    to: Route::Home,
-                    img {
-                        class: "logo-img",
-                        src: LOGO
-                    }
-                }
-                div { id: "myLinks",
+                div { class: "nav-item",
 
+                        Link {
+                            id: "logo-img",
+                            to: Route::Home,
+                            img {
+                                class: "logo-img",
+                                src: LOGO
+                            }
+                        }
+                    }
+                div { class: "nav-item",
                     Link { class: "active",
                         to: Route::ProteinCalc,
                         "Protein Calculator"
                     }
                 }
+                }
 
-            }
-    }
         Outlet::<Route> {}
     }
 }
