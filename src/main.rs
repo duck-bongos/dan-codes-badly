@@ -204,7 +204,7 @@ fn Home() -> Element {
         TopNav {  }
         h1 { "Dan Codes Badly"}
         p {
-            "Hi there. My name is Dan. I write code. Badly. While I'm quite good at   I wrote this website to learn three things:"
+            "Hi there. My name is Dan. I write code, *badly. I'm good at Python for data proessing - Data Engineering, Machine Learning, even Software Engineering. The rest of programming paradigms - I'm not very experienced, but it felt funnier to say \"badly\". To combat this self-appointed moniker - I wrote this website to learn three things:"
         }
         ol {
             li { "How to deploy a website - it worked!"}

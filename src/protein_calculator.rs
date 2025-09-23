@@ -236,15 +236,17 @@ pub fn ProteinCalculator() -> Element {
                             }
                         } else if protein_per_dollar() {
                             for item in grocery_items.read().iter().rev() {
+                                let mut prot_per_dollar = (item.protein * item.servings) / item.cost;
                                 li {
-                                    "{item.name}"
-                                    br {}
-                                    em { " ( {item.protein}g * {item.servings} serv. ) / ${item.cost}" }
+                                    "{item.name}:"
+                                    // br {}
+                                    em { "{prot_per_dollar}g per $1" }
                                 }
                             }
                         } else {
                             for item in grocery_items.read().iter() {
-                                li { "{item.name}" }
+
+                                li { "{item.name}: {item.protein*item.servings}g protein {item.calories} kCal ${item.cost}" }
                             }
                         }
                     }

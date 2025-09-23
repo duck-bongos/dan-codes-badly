@@ -69,6 +69,11 @@ ol, ul {
     text-align: left;
     list-style-position: outside;
 }
+
+div.output-list {
+    margin-left:20%;
+    margin-right:20%;
+}
 label {
     font-size: 20px;
 }
@@ -128,12 +133,12 @@ label {
     }
 
     button {
-        color: #bbb;
+        color: #333;
         background-color: rgb(11, 198, 179);
     }
 
     input.form-button {
-        color: #ccc;
+        color: #333;
         background-color: turquoise;
     }
 
@@ -175,7 +180,7 @@ label {
         color: crimson;
     }
     a:link {
-        color:goldenrod;
+        color:crimson;
     }
     a.active:hover {
         background-color: turquoise;
