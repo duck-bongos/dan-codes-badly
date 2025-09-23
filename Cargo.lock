@@ -804,6 +804,7 @@ dependencies = [
  "navbar",
  "ordered-float",
  "serde",
+ "theme",
  "tracing",
 ]
 
@@ -4772,6 +4773,17 @@ dependencies = [
  "futf",
  "mac",
  "utf-8",
+]
+
+[[package]]
+name = "theme"
+version = "0.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d5379f4c4eb851af44d4d818ba43fac8cff83e9b8e624aedc8a3346ca45065fe"
+dependencies = [
+ "dioxus",
+ "serde",
+ "web-sys",
 ]
 
 [[package]]

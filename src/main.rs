@@ -1,6 +1,8 @@
 use dan_codes_badly::protein_calculator::ProteinCalculator;
-use dioxus::{dioxus_core::ElementId, prelude::*};
+use dioxus::prelude::*;
 use serde::{Deserialize, Serialize};
+use theme::dioxus::{use_theme, ThemeProvider};
+use theme::Theme;
 
 #[derive(Clone, Routable, Debug, PartialEq, Serialize, Deserialize)]
 enum Route {
@@ -22,6 +24,7 @@ static CSS: Asset = asset!("/assets/main.css");
 //         // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
 //         .with_format(ImageFormat::Png)
 // );
+
 static RUST: Asset = asset!(
     "/assets/rust-logo-png-transparent.png",
     ImageAssetOptions::new()
@@ -44,6 +47,28 @@ static DARK_RUST: Asset = asset!(
         // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
         .with_format(ImageFormat::Png)
 );
+
+fn RustLogo() -> Element {
+    let is_dark = Theme::System == Theme::Dark;
+
+    rsx! {
+        if is_dark {
+            a {
+                href: "https://www.rust-lang.org/",
+                target: "_blank",
+                img { src: RUST}
+            }
+        }
+        else {
+            a {
+                href: "https://www.rust-lang.org/",
+                target: "_blank",
+                img { src: DARK_RUST}
+            }
+        }
+    }
+}
+
 static DIOXUS: Asset = asset!(
     "/assets/favicon.ico",
     ImageAssetOptions::new()
@@ -158,11 +183,7 @@ fn Footer() -> Element {
                 div { class: "footer-ack",
                 "Powered by"
             }
-            a {
-                href: "https://www.rust-lang.org/",
-                target: "_blank",
-                img { src: RUST}
-            }
+            RustLogo {}
             a {
                 href: "https://dioxuslabs.com/",
                 target: "_blank",
