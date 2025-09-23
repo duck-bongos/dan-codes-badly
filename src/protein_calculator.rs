@@ -2,8 +2,6 @@ use dioxus::prelude::*;
 
 use crate::eng::{GroceryItem, UxItem};
 
-pub const CSS: Asset = asset!("/assets/main.css");
-
 #[derive(Clone)]
 struct TitleState(String);
 #[component]
@@ -11,19 +9,6 @@ fn Title() -> Element {
     let title = use_context::<TitleState>();
     rsx! {
         h1 { "{title.0}" }
-    }
-}
-
-fn Instructions() -> Element {
-    use_drop(|| {
-        tracing::debug!("Hiding Instructions");
-    });
-
-    rsx! {
-        div { class: "instructions",
-            "Welcome to the Protein Comparison Tool! I wrote this to answer the two questions: '" em {"Which protein is the leanest?"}
-            " and '" em { "Which source has the most protein per dollar?" } "'. I find it useful on the grocery store comparing natural sources to protein bars and protein powders."
-        }
     }
 }
 
@@ -40,19 +25,8 @@ pub fn ProteinCalculator() -> Element {
     let mut sort_label_descriptor: Signal<String> = use_signal(|| String::from(""));
     let mut leanness: Signal<bool> = use_signal(|| false);
     let mut protein_per_dollar: Signal<bool> = use_signal(|| false);
-    let mut open_explain: Signal<bool> = use_signal(|| false);
-
-    use_context_provider(|| TitleState("Compare Protein Sources".to_string()));
 
     rsx! {
-        document::Stylesheet { href: CSS }
-
-        Title {}
-
-        button { onclick: move |_| open_explain.toggle(), "Instructions" }
-        if open_explain() {
-            Instructions {}
-        }
 
         div { class: "flex-container",
             div { class: "div-form",

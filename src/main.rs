@@ -1,5 +1,5 @@
 use dan_codes_badly::protein_calculator::ProteinCalculator;
-use dioxus::prelude::*;
+use dioxus::{dioxus_core::ElementId, prelude::*};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Routable, Debug, PartialEq, Serialize, Deserialize)]
@@ -10,20 +10,31 @@ enum Route {
     ProteinCalc,
 }
 
-static CSS: Asset = asset!("/assets/style.css");
-static LOGO: Asset = asset!(
-    "/assets/logo-removebg-preview.png",
+static CSS: Asset = asset!("/assets/main.css");
+// static LOGO: Asset = asset!(
+//     "/assets/logo-removebg-preview.png",
+//     ImageAssetOptions::new()
+//         // You can set the image size in pixels at compile time to send the smallest possible image to the client
+//         .with_size(ImageSize::Manual {
+//             width: 60,
+//             height: 40,
+//         })
+//         // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
+//         .with_format(ImageFormat::Png)
+// );
+static RUST: Asset = asset!(
+    "/assets/rust-logo-png-transparent.png",
     ImageAssetOptions::new()
         // You can set the image size in pixels at compile time to send the smallest possible image to the client
         .with_size(ImageSize::Manual {
-            width: 60,
-            height: 40,
+            width: 50,
+            height: 50
         })
         // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
         .with_format(ImageFormat::Png)
 );
-static RUST: Asset = asset!(
-    "/assets/rust-logo-png-transparent.png",
+static DARK_RUST: Asset = asset!(
+    "/assets/rust-logo-512x512.png",
     ImageAssetOptions::new()
         // You can set the image size in pixels at compile time to send the smallest possible image to the client
         .with_size(ImageSize::Manual {
@@ -49,16 +60,12 @@ pub fn TopNav() -> Element {
             div {
                 class: "topnav",
                 div { class: "nav-item",
-
-                        Link {
-                            id: "logo-img",
-                            to: Route::Home,
-                            img {
-                                class: "logo-img",
-                                src: LOGO
-                            }
-                        }
+                    Link {
+                        class: "active",
+                        to: Route::Home,
+                        "Dan Codes Badly"
                     }
+                }
                 div { class: "nav-item",
                     Link { class: "active",
                         to: Route::ProteinCalc,
@@ -71,28 +78,102 @@ pub fn TopNav() -> Element {
     }
 }
 
+#[derive(Clone)]
+struct TitleState(String);
 #[component]
-fn Footer() -> Element {
+fn Title() -> Element {
+    let title = use_context::<TitleState>();
     rsx! {
-            div { class: "footer",
-                div { class: "footer-ack",
-                    "Powered by"
-                }
-                a {
-                    href: "https://www.rust-lang.org/",
-                    target: "_blank",
-                    img { src: RUST}
-                }
-                a {
-                    href: "https://dioxuslabs.com/",
-                    target: "_blank",
-                    img { src: DIOXUS }
-                }
+        h1 { "{title.0}" }
+    }
+}
 
-                div { class: "footer-site-promotion",
+fn Description() -> Element {
+    use_drop(|| {
+        tracing::debug!("Hiding Description");
+    });
+
+    rsx! {
+            div { class: "instructions-container",
+
+            div { class: "instructions",
+            p { "Thank you for using my Protein Comparison Tool! I wrote this to answer the two questions:" }
+            ol {
+                li { em {"Which protein is the leanest?"} }
+                li { em { "Which source has the most protein per dollar?" } }
+            }
+            p { "I find it useful on the grocery store comparing natural sources to protein bars and protein powders." }
+        }
+    }
+        }
+}
+
+fn Instructions() -> Element {
+    rsx! {
+            div { class: "instructions-container",
+
+            div { class: "instructions",
+            p { "First we'll define everything, then we'll walk through instructions. This app is powered entirely by your input and does not include any databases."}
+            h3 { "Definitions" }
+            ul {
+                li { em {"Protein Source Label:"} " An easy label for you to remember the item - \"chicken\", \"protein powder\", etc."}
+                li { em { "Protein Per Serving (g):"} " The nutrition label quantity for protein. Often this is labeled per serving - enter tbat."}
+                li { em { "Calories Per Serving:"} " The nutrition label quantity for protein. Often this is labeled per serving - enter tbat."}
+                li { em { "Total Cost:"} " The total sticker price you will play for the entire item "}
+                li { em { "Total Servings:"} " The total number of servings in the item"}
+            }
+            h3 { "Instructions" }
+            h4 { "Adding Values"}
+            ol {
+                li { "Label the item something easy to remember"}
+                li { "Input the amount of protein per serving - you can find this on the label or online."}
+                li { "Input the amount of calories per serving - you can find this on the label or online."}
+                li { "Input the total cost of the item."}
+                li { "Input the total servings for the item."}
+                li { "Then hit 'add' and watch it show up below!"}
+            }
+            h4 { "Sorting Values" }
+            p { "When you add values, their leanness and unit cost are automatically calculated. You can sort them one of two ways:"}
+            ol {
+                li { em { "Leanness:"} "Calories / grams of protein. Lower is leaner." }
+                li { em { "Leanness:"} "(Protein x servings) / Cost. Lower is better." }
             }
             }
     }
+        }
+}
+
+// #[derive(Clone, Copy)]
+// struct DarkMode(bool);
+
+#[component]
+fn Footer() -> Element {
+    // let dark_mode_context = use_context::<Signal<DarkMode>>();
+    // use_context_provider(|| Signal::new(DarkMode(false)));
+
+    // let rust_logo = if dark_mode().0 { "color:white" } else { "" };
+    rsx! {
+                div { class: "footer-container",
+                div { class: "footer",
+                div { class: "footer-ack",
+                "Powered by"
+            }
+            a {
+                href: "https://www.rust-lang.org/",
+                target: "_blank",
+                img { src: RUST}
+            }
+            a {
+                href: "https://dioxuslabs.com/",
+                target: "_blank",
+                img { src: DIOXUS }
+            }
+
+            div { class: "footer-site-promotion",
+        }
+    }
+                }
+        }
 }
 
 #[component]
@@ -102,12 +183,12 @@ fn Home() -> Element {
         TopNav {  }
         h1 { "Dan Codes Badly"}
         p {
-            "Hi there. My name is Dan. I write code, often not well. I am cetainly not a web developer. I wrote this website to learn three things:"
+            "Hi there. My name is Dan. I write code. Badly. While I'm quite good at   I wrote this website to learn three things:"
         }
         ol {
-            li { "How to write a website - gotta start with a bad one."}
             li { "How to deploy a website - it worked!"}
-            li { "How to write in Rust - opted to use the ", a { href: "https://dioxuslabs.com/", "Dioxus framework"}  "." }
+            li { "How to write in Rust - opted to use the ", a { href: "https://dioxuslabs.com/", target: "_blank", "Dioxus framework"}  "." }
+            li { "How to put a utility I'll use on the internet. " Link { to: Route::ProteinCalc, "Check it out here!"}}
         }
         Footer {  }
     }
@@ -115,10 +196,34 @@ fn Home() -> Element {
 
 #[component]
 fn ProteinCalc() -> Element {
+    let mut open_explain: Signal<bool> = use_signal(|| false);
+    let mut open_describe: Signal<bool> = use_signal(|| false);
+    use_context_provider(|| TitleState("Compare Protein Sources".to_string()));
     rsx! {
         document::Stylesheet { href: CSS }
+
         TopNav { }
-        ProteinCalculator { }
+        Title {}
+        if open_explain() {
+            div {
+                // button { class: "toggle-description", onclick: move |_| open_describe.toggle(), "Go Back"}
+                button { class: "toggle-instructions", onclick: move |_| open_explain.toggle(), "Go Back"}
+            }
+            Instructions {}
+        }
+        else if open_describe() {
+            div {
+                button { class: "toggle-description", onclick: move |_| open_describe.toggle(), "Go Back"}
+                // button { class: "toggle-instructions", onclick: move |_| open_explain.toggle(), "Go Back"}
+            }
+            Description {}
+        }
+
+        else {
+            button { class: "toggle-description", onclick: move |_| open_describe.toggle(), "Description"}
+            button { class: "toggle-instructions", onclick: move |_| open_explain.toggle(), "Instructions" }
+            ProteinCalculator {}
+        }
         Footer {}
     }
 }

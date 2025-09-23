@@ -1,5 +1,5 @@
 
-.roboto-mono-cool {
+/* .roboto-mono-cool {
   font-family: "Roboto Mono", monospace;
   font-optical-sizing: auto;
   font-weight: 300;
@@ -15,39 +15,194 @@
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
+} */
+
+html body {
+        font-family: monospace;
+        text-align: center;
+        list-style-position: inside;
+        min-height:auto;
+    }
+
+h1#heading {
+        text-align: center;
+    }
+
+/* NAVBAR */
+.topnav {
+    overflow: hidden; /* Clear floats or manage inline-block spacing */
+    padding: 10px 0; /* Vertical padding for the nav bar */
+    /* position: sticky; */
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 10px;
+}
+
+.nav-item {
+    display: inline-block;
+    text-align: center;
+    padding: 4px 6px; 
+    text-decoration: none;
+    font-size: 17px;
+}
+
+button {
+        border-radius: 10px;
+        font-size: 24px;
+        font-family: monospace;
+    }
+
+#name #protein #calories #cost #servings {
+        font-size: 24px;
+    }
+
+.instructions-container {
+        margin: 10px;
+        padding: 10px;
+}
+
+ol, ul {
+    margin-left: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
+    text-align: left;
+    list-style-position: outside;
+}
+label {
+    font-size: 20px;
+}
+.form-button {
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.input {
+    margin-top: 150px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+/* Footer */
+.footer-container {
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.footer {
+    text-align: center;
 }
 
 @media (prefers-color-scheme: dark) {
-    html, body {
-        /* background-color: #115336; */
-        background-color: #003114;
-        color: #eee;
-        border-color: #dddddd;
+    /*All / Default*/
+    html body {
+        background-color: #111;
+        color: #eeeeee;
+        border-color: #eeeeee;
+    }
+    
+    .nav-item:hover {
+        background-color: turquoise; /* Hover effect */
+        color: black;
+    }
+    
+    .nav-item {
+        color: #222;
     }
 
-    #main {
-        background-color: #004225;
+    div.nav-item a {
+        color: #eee;
     }
+
+    a:visited {
+        color: crimson;
+    }
+    a:link {
+        color:crimson;
+    }
+    a.active:hover {
+        background-color: turquoise;
+    }
+
+    button {
+        color: #bbb;
+        background-color: rgb(11, 198, 179);
+    }
+
+    input.form-button {
+        color: #ccc;
+        background-color: turquoise;
+    }
+
+    input.clear-button {
+        color: #ccc;
+        background-color: maroon;
+    }
+
+    
+    .footer {
+        color: #eeeeee;
+        text-align: center;
+    }
+
 }
 
 @media (prefers-color-scheme: light) {
-    html, body {
-        background-color: #089a45;
-        color: #111111;
-        border-color: #dddddd;
+    /*All / Default*/
+    html body {
+        background-color: #eee;
+        color: #111;
+        border-color: #111;
     }
+    
+    .nav-item:hover {
+        background-color: turquoise; /* Hover effect */
+        color: black;
+    }
+    
+    .nav-item {
+        color: #333;
+    }
+
+    div.nav-item a {
+        color: #111;
+    }
+
+    a:visited {
+        color: crimson;
+    }
+    a:link {
+        color:goldenrod;
+    }
+    a.active:hover {
+        background-color: turquoise;
+    }
+
+    button {
+        color: #ccc;
+        background-color: rgb(11, 198, 179);
+    }
+
+    input.form-button {
+        color: #ccc;
+        background-color: rgb(11, 198, 179);
+    }
+
+    input.clear-button {
+        color: #ccc;
+        background-color: maroon;
+    }
+
+    
+    .footer {
+        color: #eee;
+        text-align: center;
+    }
+
 }
 
 
-html body {
-    background-color: #2A365A;
-    color: #eeeeee;
-    border-color: #dddddd;
-    font-family: sans-serif;
-    text-align: center;
-    list-style-position: inside;
-}
 
-h1 h2 h3 h4 h5 h6 {
-    font-family: monospace;
-}
