@@ -25,6 +25,7 @@ pub fn ProteinCalculator() -> Element {
     let mut sort_label_descriptor: Signal<String> = use_signal(|| String::from(""));
     let mut leanness: Signal<bool> = use_signal(|| false);
     let mut protein_per_dollar: Signal<bool> = use_signal(|| false);
+    let mut zero_warning: Signal<bool> = use_signal(|| false);
 
     rsx! {
 
@@ -127,27 +128,45 @@ pub fn ProteinCalculator() -> Element {
 
 
                 div { class: "input-form-buttons",
-                    input {
+                    ErrorBoundary {
+                        handle_error: |_| {
+                            rsx! {
+                                "Oops we encountered an error! Please ensure none of the values are set to 0 and retry!"
+                            }
+                        },
+                        input {
                         class: "form-button",
                         r#type: "submit",
                         value: "Add",
                         onclick: move |_| {
-                            let _uxi = UxItem {
-                                name: name(),
-                                protein: protein(),
-                                calories: calories(),
-                                cost: cost(),
-                                servings: servings(),
+
+                            let statuses = vec![protein(), calories(), cost(), servings()];
+                            if statuses.iter().any(|&i| i == 0.0) {
+                                zero_warning.set(true);
                             }
-                                .to_grocery();
-                            grocery_items.push(_uxi);
-                            name.set(String::new());
-                            protein.set(0.0);
-                            calories.set(0.0);
-                            cost.set(0.0);
-                            servings.set(1.0);
+                            else {
+                                let _uxi = UxItem {
+                                    name: name(),
+                                    protein: protein(),
+                                    calories: calories(),
+                                    cost: cost(),
+                                    servings: servings(),
+                                }.to_grocery();
+
+                                grocery_items.push(_uxi);
+                                name.set(String::new());
+                                protein.set(0.0);
+                                calories.set(0.0);
+                                cost.set(0.0);
+                                servings.set(1.0);
+                                zero_warning.set(false);
+                            }
+
+
+
                         },
                     }
+                }
 
 
                     input {
@@ -160,22 +179,48 @@ pub fn ProteinCalculator() -> Element {
                             calories.set(0.0);
                             cost.set(0.0);
                             servings.set(1.0);
+                            zero_warning.set(false);
                         },
                     }
                 }
+
+                if zero_warning() {
+                    div { class: "zero-warning",
+                        "Please ensure all values entered are non-zero!"
+
+                    }
             }
+        }
 
 
             div { id: "protein-items", class: "div-form",
                 h3 { "Protein Items" }
-                div { class: "sort-label",
-                    p { "{sort_label}" }
-                    div { class: "fraction",
-                        div { class: "numerator", "{numerator}" }
-                        div { class: "denominator", "{denominator}" }
-                    }
-                    p { "{sort_label_descriptor}" }
+                                div { class: "output-list",
+                    ol {
+                        if leanness() {
+                            for item in grocery_items.read().iter() {
 
+                                li {
+                                    "{item.name}"
+                                    br {}
+                                    em { "{item.calories} kCal / {item.protein}g" }
+                                }
+                            }
+                        } else if protein_per_dollar() {
+                            for item in grocery_items.read().iter().rev() {
+
+                                li {
+                                    "{item.name}:"
+                                    em { " {(item.ppd*100.0).round() / 100.0}g per $1" }
+                                }
+                            }
+                        } else {
+                            for item in grocery_items.read().iter() {
+
+                                li { "{item.name}: " em {class: "display-item", "{item.protein*item.servings}g protein {item.calories*item.servings} kCal ${item.cost}" }}
+                            }
+                        }
+                    }
                 }
 
                 div { class: "input-form-buttons",
@@ -224,33 +269,7 @@ pub fn ProteinCalculator() -> Element {
                         },
                     }
                 }
-                div { class: "output-list",
-                    ol {
-                        if leanness() {
-                            for item in grocery_items.read().iter() {
-                                li {
-                                    "{item.name}"
-                                    br {}
-                                    em { "{item.calories} kCal / {item.protein}g" }
-                                }
-                            }
-                        } else if protein_per_dollar() {
-                            for item in grocery_items.read().iter().rev() {
-                                let mut prot_per_dollar = (item.protein * item.servings) / item.cost;
-                                li {
-                                    "{item.name}:"
-                                    // br {}
-                                    em { "{prot_per_dollar}g per $1" }
-                                }
-                            }
-                        } else {
-                            for item in grocery_items.read().iter() {
 
-                                li { "{item.name}: {item.protein*item.servings}g protein {item.calories} kCal ${item.cost}" }
-                            }
-                        }
-                    }
-                }
             }
         }
     }

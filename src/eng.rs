@@ -69,8 +69,7 @@ pub fn calc_leanness(
 ) -> OrderedFloat<f64> {
     /* Lower is better. Sort ascending! */
     if *protein == 0.0 {
-        // return Err("Attempted division by 0.0".to_string());
-        panic!("Protein cannot be 0.0!");
+        return OrderedFloat(0.0);
     }
 
     let result = calories / protein;
@@ -90,7 +89,7 @@ pub fn calc_protein_per_dollar(
 ) -> OrderedFloat<f64> {
     /* Higher is better. Sort descending! */
     if *cost <= OrderedFloat(0.0) {
-        panic!("Cost is {}, must be greater than 0!", cost)
+        return OrderedFloat(0.0);
     }
 
     let result = (protein * servings) / cost;
@@ -112,12 +111,11 @@ pub fn calc_leanness_per_dollar(
 ) -> OrderedFloat<f64> {
     /* Higher is better. Sort ascending! */
     if *cost == 0.0 {
-        panic!("Cost: $0.0. Will not attempt division by zero.")
+        return OrderedFloat(0.0);
     }
 
     if *calories == 0.0 {
-        // return Err("Attempted division by 0.0".to_string());
-        panic!("Calories cannot be 0.0!");
+        return OrderedFloat(0.0);
     }
 
     let _leanness = calc_leanness(&protein, &calories);
@@ -125,7 +123,6 @@ pub fn calc_leanness_per_dollar(
     let result = (_leanness * servings) / cost;
 
     if result.is_infinite() {
-        // return Err("Result is infinite".to_string());
         panic!("Result is infinite");
     } else if result.is_nan() {
         panic!("Result is not a number (NaN).");

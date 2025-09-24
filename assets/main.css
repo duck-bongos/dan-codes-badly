@@ -1,22 +1,4 @@
 
-/* .roboto-mono-cool {
-  font-family: "Roboto Mono", monospace;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-}
-
-@layer theme {
-  :root, :host {
-    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-mono: .roboto-mono-cool, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-      "Courier New", monospace;
-    --default-font-family: var(--font-sans);
-    --default-mono-font-family: var(--font-mono);
-  }
-} */
-
 html body {
         font-family: monospace;
         text-align: center;
@@ -28,11 +10,15 @@ h1#heading {
         text-align: center;
     }
 
+p {
+    text-align: left;
+    text-indent: 50px;
+}
+
 /* NAVBAR */
 .topnav {
-    overflow: hidden; /* Clear floats or manage inline-block spacing */
-    padding: 10px 0; /* Vertical padding for the nav bar */
-    /* position: sticky; */
+    overflow: hidden;
+    padding: 10px 0;
     top: 0;
     left: 0;
     right: 0;
@@ -51,7 +37,9 @@ button {
         border-radius: 10px;
         font-size: 24px;
         font-family: monospace;
+        margin: 2px;
     }
+
 
 #name #protein #calories #cost #servings {
         font-size: 24px;
@@ -71,8 +59,10 @@ ol, ul {
 }
 
 div.output-list {
-    margin-left:20%;
-    margin-right:20%;
+    margin-left:10%;
+    margin-right:10%;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 label {
     font-size: 20px;
@@ -81,11 +71,14 @@ label {
     border-radius: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-size: 22px;
 }
 .input {
     margin-top: 150px;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 24px;
 }
 
 /* Footer */
@@ -101,6 +94,13 @@ label {
     text-align: center;
 }
 
+@media screen and (max-width: 6400px) {
+  div.output-list {
+    display: table;
+    margin: 0 auto;
+}
+}
+
 @media (prefers-color-scheme: dark) {
     /*All / Default*/
     html body {
@@ -110,7 +110,7 @@ label {
     }
     
     .nav-item:hover {
-        background-color: turquoise; /* Hover effect */
+        background-color:  rgb(11, 198, 179); /* Hover effect */
         color: black;
     }
     
@@ -129,22 +129,28 @@ label {
         color:crimson;
     }
     a.active:hover {
-        background-color: turquoise;
+        background-color:  rgb(11, 198, 179);
     }
 
     button {
-        color: #333;
+        color: #eee;
         background-color: rgb(11, 198, 179);
     }
 
     input.form-button {
-        color: #333;
-        background-color: turquoise;
+        color: #eee;
+        background-color: rgb(11, 198, 179);
+
+        margin-bottom: 2%;
     }
 
     input.clear-button {
-        color: #ccc;
+        color: #ddd;
         background-color: maroon;
+    }
+
+    div.zero-warning {
+        color: goldenrod;
     }
 
     
@@ -164,7 +170,7 @@ label {
     }
     
     .nav-item:hover {
-        background-color: turquoise; /* Hover effect */
+        background-color: rgb(11, 198, 179); /* Hover effect */
         color: black;
     }
     
@@ -183,22 +189,26 @@ label {
         color:crimson;
     }
     a.active:hover {
-        background-color: turquoise;
+        background-color: rgb(11, 198, 179);
     }
 
     button {
-        color: #ccc;
+        color: #eee;
         background-color: rgb(11, 198, 179);
     }
 
     input.form-button {
-        color: #ccc;
+        color: #eee;
         background-color: rgb(11, 198, 179);
     }
 
     input.clear-button {
-        color: #ccc;
+        color: #eee;
         background-color: maroon;
+    }
+
+    div.zero-warning {
+        color: goldenrod;
     }
 
     

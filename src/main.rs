@@ -1,14 +1,13 @@
 use dan_codes_badly::protein_calculator::ProteinCalculator;
 use dioxus::prelude::*;
 use serde::{Deserialize, Serialize};
-use theme::dioxus::{use_theme, ThemeProvider};
 use theme::Theme;
 
 #[derive(Clone, Routable, Debug, PartialEq, Serialize, Deserialize)]
 enum Route {
     #[route("/")]
     Home,
-    #[route("/protein_calculator")]
+    #[route("/protein_comparison")]
     ProteinCalc,
 }
 
@@ -24,7 +23,7 @@ static CSS: Asset = asset!("/assets/main.css");
 //         // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
 //         .with_format(ImageFormat::Png)
 // );
-
+static FAVICON: Asset = asset!("/assets/favicon_io/favicon.ico");
 static RUST: Asset = asset!(
     "/assets/rust-logo-png-transparent.png",
     ImageAssetOptions::new()
@@ -94,7 +93,7 @@ pub fn TopNav() -> Element {
                 div { class: "nav-item",
                     Link { class: "active",
                         to: Route::ProteinCalc,
-                        "Protein Calculator"
+                        "Protein Comparison Tool"
                     }
                 }
                 }
@@ -127,7 +126,7 @@ fn Description() -> Element {
                 li { em {"Which protein is the leanest?"} }
                 li { em { "Which source has the most protein per dollar?" } }
             }
-            p { "I find it useful on the grocery store comparing natural sources to protein bars and protein powders." }
+            p { "I find it useful at the grocery store comparing natural sources to protein bars and protein powders or shopping online for different protein powder sources in bulk. This app is powered entirely by your input and does not talk to any databases. We also don't save your data because frankly, it's not worth anything and certainly not worth figuring out how to add." }
         }
     }
         }
@@ -138,7 +137,7 @@ fn Instructions() -> Element {
             div { class: "instructions-container",
 
             div { class: "instructions",
-            p { "First we'll define everything, then we'll walk through instructions. This app is powered entirely by your input and does not include any databases."}
+            p { "First we'll define everything, then we'll walk through instructions."}
             h3 { "Definitions" }
             ul {
                 li { em {"Protein Source Label:"} " An easy label for you to remember the item - \"chicken\", \"protein powder\", etc."}
@@ -160,8 +159,8 @@ fn Instructions() -> Element {
             h4 { "Sorting Values" }
             p { "When you add values, their leanness and unit cost are automatically calculated. You can sort them one of two ways:"}
             ol {
-                li { em { "Leanness:"} "Calories / grams of protein. Lower is leaner." }
-                li { em { "Leanness:"} "(Protein x servings) / Cost. Lower is better." }
+                li { em { "Leanness: "} "Calories / grams of protein. Lower is leaner." }
+                li { em { "Protein Per Dollar: "} "(Protein x servings) / Cost. Higher is often better." }
             }
             }
     }
@@ -201,15 +200,20 @@ fn Footer() -> Element {
 fn Home() -> Element {
     rsx! {
         document::Stylesheet { href: CSS }
+        document::Link { rel: "icon", href: FAVICON }
+
         TopNav {  }
         h1 { "Dan Codes Badly"}
         p {
-            "Hi there. My name is Dan. I write code, *badly. I'm good at Python for data proessing - Data Engineering, Machine Learning, even Software Engineering. The rest of programming paradigms - I'm not very experienced, but it felt funnier to say \"badly\". To combat this self-appointed moniker - I wrote this website to learn three things:"
+            "Hi there. My name is Dan. I write code, *badly. Most programming paradigms I'm not very experienced, but it felt funnier to say \"badly\". To combat this self-appointed moniker - I wrote this website to learn three things:"
         }
         ol {
             li { "How to deploy a website - it worked!"}
             li { "How to write in Rust - opted to use the ", a { href: "https://dioxuslabs.com/", target: "_blank", "Dioxus framework"}  "." }
             li { "How to put a utility I'll use on the internet. " Link { to: Route::ProteinCalc, "Check it out here!"}}
+        }
+        p {
+            em {"*badly - I'm a Machine Learning Engineer by trade and write a lot of Python for data processing - ETL & Data Engineering, Machine Learning, even Software Engineering."}
         }
         Footer {  }
     }
@@ -221,6 +225,7 @@ fn ProteinCalc() -> Element {
     let mut open_describe: Signal<bool> = use_signal(|| false);
     use_context_provider(|| TitleState("Compare Protein Sources".to_string()));
     rsx! {
+        document::Link { rel: "icon", href: FAVICON }
         document::Stylesheet { href: CSS }
 
         TopNav { }
