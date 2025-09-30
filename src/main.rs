@@ -12,38 +12,23 @@ enum Route {
 }
 
 static CSS: Asset = asset!("/assets/main.css");
-// static LOGO: Asset = asset!(
-//     "/assets/logo-removebg-preview.png",
-//     ImageAssetOptions::new()
-//         // You can set the image size in pixels at compile time to send the smallest possible image to the client
-//         .with_size(ImageSize::Manual {
-//             width: 60,
-//             height: 40,
-//         })
-//         // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
-//         .with_format(ImageFormat::Png)
-// );
 static FAVICON: Asset = asset!("/assets/favicon_io/favicon.ico");
 static RUST: Asset = asset!(
     "/assets/rust-logo-png-transparent.png",
     ImageAssetOptions::new()
-        // You can set the image size in pixels at compile time to send the smallest possible image to the client
         .with_size(ImageSize::Manual {
             width: 50,
             height: 50
         })
-        // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
         .with_format(ImageFormat::Png)
 );
 static DARK_RUST: Asset = asset!(
     "/assets/rust-logo-512x512.png",
     ImageAssetOptions::new()
-        // You can set the image size in pixels at compile time to send the smallest possible image to the client
         .with_size(ImageSize::Manual {
             width: 50,
             height: 50
         })
-        // You can also convert the image to a web friendly format at compile time. This can make your images significantly smaller
         .with_format(ImageFormat::Png)
 );
 
@@ -167,15 +152,8 @@ fn Instructions() -> Element {
         }
 }
 
-// #[derive(Clone, Copy)]
-// struct DarkMode(bool);
-
 #[component]
 fn Footer() -> Element {
-    // let dark_mode_context = use_context::<Signal<DarkMode>>();
-    // use_context_provider(|| Signal::new(DarkMode(false)));
-
-    // let rust_logo = if dark_mode().0 { "color:white" } else { "" };
     rsx! {
                 div { class: "footer-container",
                 div { class: "footer",
@@ -232,7 +210,7 @@ fn ProteinCalc() -> Element {
         Title {}
         if open_explain() {
             div {
-                // button { class: "toggle-description", onclick: move |_| open_describe.toggle(), "Go Back"}
+
                 button { class: "toggle-instructions", onclick: move |_| open_explain.toggle(), "Go Back"}
             }
             Instructions {}
@@ -240,7 +218,7 @@ fn ProteinCalc() -> Element {
         else if open_describe() {
             div {
                 button { class: "toggle-description", onclick: move |_| open_describe.toggle(), "Go Back"}
-                // button { class: "toggle-instructions", onclick: move |_| open_explain.toggle(), "Go Back"}
+
             }
             Description {}
         }
