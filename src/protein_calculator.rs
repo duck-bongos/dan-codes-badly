@@ -34,7 +34,7 @@ pub fn ProteinCalculator() -> Element {
                 h3 { "Input Factors" }
                 div { class: "form-group",
                     div { class: "floating-label",
-                        label { r#for: "name", "Protein Source Label:" }
+                        label { r#for: "name", "A Label like \n'Chicken', 'Protein Powder', etc:" }
                     }
                     input {
                         r#type: "text",
@@ -130,43 +130,36 @@ pub fn ProteinCalculator() -> Element {
                 div { class: "input-form-buttons",
                     ErrorBoundary {
                         handle_error: |_| {
-                            rsx! {
-                                "Oops we encountered an error! Please ensure none of the values are set to 0 and retry!"
-                            }
+                            rsx! { "Oops we encountered an error! Please ensure none of the values are set to 0 and retry!" }
                         },
                         input {
-                        class: "form-button",
-                        r#type: "submit",
-                        value: "Add",
-                        onclick: move |_| {
-
-                            let statuses = vec![protein(), calories(), cost(), servings()];
-                            if statuses.iter().any(|&i| i == 0.0) {
-                                zero_warning.set(true);
-                            }
-                            else {
-                                let _uxi = UxItem {
-                                    name: name(),
-                                    protein: protein(),
-                                    calories: calories(),
-                                    cost: cost(),
-                                    servings: servings(),
-                                }.to_grocery();
-
-                                grocery_items.push(_uxi);
-                                name.set(String::new());
-                                protein.set(0.0);
-                                calories.set(0.0);
-                                cost.set(0.0);
-                                servings.set(1.0);
-                                zero_warning.set(false);
-                            }
-
-
-
-                        },
+                            class: "form-button",
+                            r#type: "submit",
+                            value: "Add",
+                            onclick: move |_| {
+                                let statuses = vec![protein(), calories(), cost(), servings()];
+                                if statuses.iter().any(|&i| i == 0.0) {
+                                    zero_warning.set(true);
+                                } else {
+                                    let _uxi = UxItem {
+                                        name: name(),
+                                        protein: protein(),
+                                        calories: calories(),
+                                        cost: cost(),
+                                        servings: servings(),
+                                    }
+                                        .to_grocery();
+                                    grocery_items.push(_uxi);
+                                    name.set(String::new());
+                                    protein.set(0.0);
+                                    calories.set(0.0);
+                                    cost.set(0.0);
+                                    servings.set(1.0);
+                                    zero_warning.set(false);
+                                }
+                            },
+                        }
                     }
-                }
 
 
                     input {
@@ -185,17 +178,14 @@ pub fn ProteinCalculator() -> Element {
                 }
 
                 if zero_warning() {
-                    div { class: "zero-warning",
-                        "Please ensure all values entered are non-zero!"
-
-                    }
+                    div { class: "zero-warning", "Please ensure all values entered are non-zero!" }
+                }
             }
-        }
 
 
             div { id: "protein-items", class: "div-form",
                 h3 { "Protein Items" }
-                                div { class: "output-list",
+                div { class: "output-list",
                     ol {
                         if leanness() {
                             for item in grocery_items.read().iter() {
@@ -217,7 +207,12 @@ pub fn ProteinCalculator() -> Element {
                         } else {
                             for item in grocery_items.read().iter() {
 
-                                li { "{item.name}: " em {class: "display-item", "{item.protein*item.servings}g protein {item.calories*item.servings} kCal ${item.cost}" }}
+                                li {
+                                    "{item.name}: "
+                                    em { class: "display-item",
+                                        "{item.protein*item.servings}g protein {item.calories*item.servings} kCal ${item.cost}"
+                                    }
+                                }
                             }
                         }
                     }
@@ -269,7 +264,7 @@ pub fn ProteinCalculator() -> Element {
                         },
                     }
                 }
-
+            
             }
         }
     }

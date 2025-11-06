@@ -7,7 +7,7 @@ use theme::Theme;
 enum Route {
     #[route("/")]
     Home,
-    #[route("/protein_comparison")]
+    #[route("/protein-comparison-tool")]
     ProteinCalc,
 }
 
@@ -37,17 +37,12 @@ fn RustLogo() -> Element {
 
     rsx! {
         if is_dark {
-            a {
-                href: "https://www.rust-lang.org/",
-                target: "_blank",
-                img { src: RUST}
+            a { href: "https://www.rust-lang.org/", target: "_blank",
+                img { src: RUST }
             }
-        }
-        else {
-            a {
-                href: "https://www.rust-lang.org/",
-                target: "_blank",
-                img { src: DARK_RUST}
+        } else {
+            a { href: "https://www.rust-lang.org/", target: "_blank",
+                img { src: DARK_RUST }
             }
         }
     }
@@ -66,22 +61,17 @@ static DIOXUS: Asset = asset!(
 #[component]
 pub fn TopNav() -> Element {
     rsx! {
-            div {
-                class: "topnav",
-                div { class: "nav-item",
-                    Link {
-                        class: "active",
-                        to: Route::Home,
-                        "Dan Codes Badly"
-                    }
+        div { class: "navbar",
+            ul { class: "navbar",
+                li {
+                    Link { class: "nav-item", to: "/", "[ Dan Codes Badly ]" }
                 }
-                div { class: "nav-item",
-                    Link { class: "active",
-                        to: Route::ProteinCalc,
-                        "Protein Comparison Tool"
-                    }
+                li {
+
+                    Link { class: "nav-item", to: Route::ProteinCalc, "[ Protein Comparison Tool ]" }
                 }
-                }
+            }
+        }
 
         Outlet::<Route> {}
     }
@@ -103,75 +93,105 @@ fn Description() -> Element {
     });
 
     rsx! {
-            div { class: "instructions-container",
+        div { class: "instructions-container",
 
             div { class: "instructions",
-            p { "Thank you for using my Protein Comparison Tool! I wrote this to answer the two questions:" }
-            ol {
-                li { em {"Which protein is the leanest?"} }
-                li { em { "Which source has the most protein per dollar?" } }
+                p {
+                    "Thank you for using my Protein Comparison Tool! I wrote this to answer the two questions:"
+                }
+                ol {
+                    li {
+                        em { "Which protein is the leanest?" }
+                    }
+                    li {
+                        em { "Which source has the most protein per dollar?" }
+                    }
+                }
+                p {
+                    "I find it useful at the grocery store comparing natural sources to protein bars and protein powders or shopping online for different protein powder sources in bulk. This app is powered entirely by your input and does not talk to any databases. We also don't save your data because frankly, it's not worth anything and certainly not worth figuring out how to add."
+                }
             }
-            p { "I find it useful at the grocery store comparing natural sources to protein bars and protein powders or shopping online for different protein powder sources in bulk. This app is powered entirely by your input and does not talk to any databases. We also don't save your data because frankly, it's not worth anything and certainly not worth figuring out how to add." }
         }
     }
-        }
 }
 
 fn Instructions() -> Element {
     rsx! {
-            div { class: "instructions-container",
+        div { class: "instructions-container",
 
             div { class: "instructions",
-            p { "First we'll define everything, then we'll walk through instructions."}
-            h3 { "Definitions" }
-            ul {
-                li { em {"Protein Source Label:"} " An easy label for you to remember the item - \"chicken\", \"protein powder\", etc."}
-                li { em { "Protein Per Serving (g):"} " The nutrition label quantity for protein. Often this is labeled per serving - enter tbat."}
-                li { em { "Calories Per Serving:"} " The nutrition label quantity for protein. Often this is labeled per serving - enter tbat."}
-                li { em { "Total Cost:"} " The total sticker price you will play for the entire item "}
-                li { em { "Total Servings:"} " The total number of servings in the item"}
+                p { "First we'll define everything, then we'll walk through instructions." }
+                h3 { "Definitions" }
+                ul {
+                    li {
+                        em { "Protein Source Label:" }
+                        " An easy label for you to remember the item - \"chicken\", \"protein powder\", etc."
+                    }
+                    li {
+                        em { "Protein Per Serving (g):" }
+                        " The nutrition label quantity for protein. Often this is labeled per serving - enter tbat."
+                    }
+                    li {
+                        em { "Calories Per Serving:" }
+                        " The nutrition label quantity for protein. Often this is labeled per serving - enter tbat."
+                    }
+                    li {
+                        em { "Total Cost:" }
+                        " The total sticker price you will play for the entire item "
+                    }
+                    li {
+                        em { "Total Servings:" }
+                        " The total number of servings in the item"
+                    }
+                }
+                h3 { "Instructions" }
+                h4 { "Adding Values" }
+                ol {
+                    li { "Label the item something easy to remember" }
+                    li {
+                        "Input the amount of protein per serving - you can find this on the label or online."
+                    }
+                    li {
+                        "Input the amount of calories per serving - you can find this on the label or online."
+                    }
+                    li { "Input the total cost of the item." }
+                    li { "Input the total servings for the item." }
+                    li { "Then hit 'add' and watch it show up below!" }
+                }
+                h4 { "Sorting Values" }
+                p {
+                    "When you add values, their leanness and unit cost are automatically calculated. You can sort them one of two ways:"
+                }
+                ol {
+                    li {
+                        em { "Leanness: " }
+                        "Calories / grams of protein. Lower is leaner."
+                    }
+                    li {
+                        em { "Protein Per Dollar: " }
+                        "(Protein x servings) / Cost. Higher is often better."
+                    }
+                }
             }
-            h3 { "Instructions" }
-            h4 { "Adding Values"}
-            ol {
-                li { "Label the item something easy to remember"}
-                li { "Input the amount of protein per serving - you can find this on the label or online."}
-                li { "Input the amount of calories per serving - you can find this on the label or online."}
-                li { "Input the total cost of the item."}
-                li { "Input the total servings for the item."}
-                li { "Then hit 'add' and watch it show up below!"}
-            }
-            h4 { "Sorting Values" }
-            p { "When you add values, their leanness and unit cost are automatically calculated. You can sort them one of two ways:"}
-            ol {
-                li { em { "Leanness: "} "Calories / grams of protein. Lower is leaner." }
-                li { em { "Protein Per Dollar: "} "(Protein x servings) / Cost. Higher is often better." }
-            }
-            }
-    }
         }
+    }
 }
 
 #[component]
 fn Footer() -> Element {
     rsx! {
-                div { class: "footer-container",
-                div { class: "footer",
-                div { class: "footer-ack",
-                "Powered by"
-            }
-            RustLogo {}
-            a {
-                href: "https://dioxuslabs.com/",
-                target: "_blank",
-                img { src: DIOXUS }
-            }
+        div { class: "footer-container",
+            div { class: "footer",
+                div { class: "footer-ack", "Powered by" }
+                RustLogo {}
+                a { href: "https://dioxuslabs.com/", target: "_blank",
+                    img { src: DIOXUS }
+                }
 
-            div { class: "footer-site-promotion",
+                div { class: "footer-site-promotion" }
+            }
         }
     }
-                }
-        }
 }
 
 #[component]
@@ -180,20 +200,28 @@ fn Home() -> Element {
         document::Stylesheet { href: CSS }
         document::Link { rel: "icon", href: FAVICON }
 
-        TopNav {  }
-        h1 { "Dan Codes Badly"}
+        TopNav {}
+        h1 { "Dan Codes Badly" }
         p {
             "Hi there. My name is Dan. I write code, *badly. Most programming paradigms I'm not very experienced, but it felt funnier to say \"badly\". To combat this self-appointed moniker - I wrote this website to learn three things:"
         }
         ol {
-            li { "How to deploy a website - it worked!"}
-            li { "How to write in Rust - opted to use the ", a { href: "https://dioxuslabs.com/", target: "_blank", "Dioxus framework"}  "." }
-            li { "How to put a utility I'll use on the internet. " Link { to: Route::ProteinCalc, "Check it out here!"}}
+            li { "How to deploy a website - it worked!" }
+            li {
+                "How to write in Rust - opted to use the "
+                Link { to: "https://dioxuslabs.com/", "Dioxus framework."}
+            }
+            li {
+                "How to put a utility I'll use on the internet. "
+                Link { to: Route::ProteinCalc, "Check it out here!" }
+            }
         }
         p {
-            em {"*badly - I'm a Machine Learning Engineer by trade and write a lot of Python for data processing - ETL & Data Engineering, Machine Learning, even Software Engineering."}
+            em {
+                "*badly - I'm a Machine Learning Engineer by trade and write a lot of Python for data processing - ETL & Data Engineering, Machine Learning, even Software Engineering."
+            }
         }
-        Footer {  }
+        Footer {}
     }
 }
 
@@ -206,26 +234,39 @@ fn ProteinCalc() -> Element {
         document::Link { rel: "icon", href: FAVICON }
         document::Stylesheet { href: CSS }
 
-        TopNav { }
+        TopNav {}
         Title {}
         if open_explain() {
             div {
 
-                button { class: "toggle-instructions", onclick: move |_| open_explain.toggle(), "Go Back"}
+                button {
+                    class: "toggle-instructions",
+                    onclick: move |_| open_explain.toggle(),
+                    "Go Back"
+                }
             }
             Instructions {}
-        }
-        else if open_describe() {
+        } else if open_describe() {
             div {
-                button { class: "toggle-description", onclick: move |_| open_describe.toggle(), "Go Back"}
+                button {
+                    class: "toggle-description",
+                    onclick: move |_| open_describe.toggle(),
+                    "Go Back"
+                }
 
             }
             Description {}
-        }
-
-        else {
-            button { class: "toggle-description", onclick: move |_| open_describe.toggle(), "Description"}
-            button { class: "toggle-instructions", onclick: move |_| open_explain.toggle(), "Instructions" }
+        } else {
+            button {
+                class: "toggle-description",
+                onclick: move |_| open_describe.toggle(),
+                "Description"
+            }
+            button {
+                class: "toggle-instructions",
+                onclick: move |_| open_explain.toggle(),
+                "Instructions"
+            }
             ProteinCalculator {}
         }
         Footer {}
@@ -233,5 +274,9 @@ fn ProteinCalc() -> Element {
 }
 
 fn main() {
-    launch(|| rsx! { Router::<Route> {} });
+    launch(|| {
+        rsx! {
+            Router::<Route> {}
+        }
+    });
 }

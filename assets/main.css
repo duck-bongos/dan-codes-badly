@@ -1,3 +1,31 @@
+:root {
+  --text-base: hsl(243, 76%, 5%);
+  --background-base: hsl(192, 100%, 99%);
+  --primary-base: hsl(189, 96%, 52%);
+  --secondary-base: hsl(51, 90%, 72%);
+  --accent-base: hsl(291, 72%, 62%);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+      --text: hsl(from var(--text-base) h s calc(100 - l));
+      
+      --background: hsl(from var(--background-base) h calc(s - 40) calc(l - 90));
+      --primary: hsl(from var(--primary-base) h calc(s - 10) calc(100 - l));
+      --secondary: hsl(334, 76%, 64%);
+      --accent: hsl(50, 76%, 73%);
+
+      --primary-dark: hsl(from var(--primary) h s calc(l - 10));
+      --primary-light: hsl(from var(--primary) h s calc(l + 20));
+      --primary-light: hsl(from var(--primary) h calc(s / 2) calc(l + 20));
+
+      --secondary-dark: hsl(from var(--secondary) h s calc(l - 10));
+      --secondary-light: hsl(from var(--secondary) h s calc(l + 10));
+
+      --accent-dark: hsl(from var(--accent) h s calc(l - 20));
+      --accent-light: hsl(from var(--accent) h s calc(l + 20));
+  }
+}
+
 
 html body {
         font-family: monospace;
@@ -15,14 +43,26 @@ p {
     text-indent: 50px;
 }
 
-/* NAVBAR */
-.topnav {
+.navbar {
     overflow: hidden;
     padding: 10px 0;
     top: 0;
     left: 0;
     right: 0;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-dark);
+}
+
+.navbar ul {
+    list-style-type: none;
+}
+
+.navbar ul li a {
+    display: flex;
+    text-decoration: none;
 }
 
 .nav-item {
@@ -46,8 +86,15 @@ button {
     }
 
 .instructions-container {
-        margin: 10px;
-        padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 80%;
+}
+
+div.instructions {
+    display: block;
+    max-width: 80%;
 }
 
 ol, ul {
@@ -104,53 +151,57 @@ label {
 @media (prefers-color-scheme: dark) {
     /*All / Default*/
     html body {
-        background-color: #111;
-        color: #eeeeee;
-        border-color: #eeeeee;
+        background-color: var(--background);
+        color: var(--text);
+        border-color: var(--text);
     }
     
     .nav-item:hover {
-        background-color:  rgb(11, 198, 179); /* Hover effect */
-        color: black;
+        background-color:  var(--primary-dark); /* Hover effect */
+        color: var(--text);
     }
     
     .nav-item {
-        color: #222;
+        color: var(--text);
+        font-size: 1.6em;
     }
 
     div.nav-item a {
-        color: #eee;
+        color: var(--text);
+        font-size: 1.6em;
     }
 
     a:visited {
-        color: crimson;
+        color: var(--accent);
+        
     }
     a:link {
-        color:crimson;
+        color: var(--accent);
+        
     }
     a.active:hover {
-        background-color:  rgb(11, 198, 179);
+        background-color: var(--primary);
     }
 
     button {
-        color: #eee;
-        background-color: rgb(11, 198, 179);
+        color: var(--text);
+        background-color: var(--primary-dark);
     }
 
     input.form-button {
-        color: #eee;
-        background-color: rgb(11, 198, 179);
+        color: var(--text);
+        background-color: var(--primary-dark);
 
         margin-bottom: 2%;
     }
 
     input.clear-button {
-        color: #ddd;
-        background-color: maroon;
+        color: var(--text);
+        background-color: var(--secondary-dark);
     }
 
     div.zero-warning {
-        color: goldenrod;
+        color: var(--text);
     }
 
     
@@ -170,12 +221,12 @@ label {
     }
     
     .nav-item:hover {
-        background-color: rgb(11, 198, 179); /* Hover effect */
+        background-color: var(--primary); /* Hover effect */
         color: black;
     }
     
     .nav-item {
-        color: #333;
+        color: var(--background);
     }
 
     div.nav-item a {
@@ -183,37 +234,37 @@ label {
     }
 
     a:visited {
-        color: crimson;
+        color: var(--accent);
     }
     a:link {
-        color:crimson;
+        color:var(--accent);
     }
     a.active:hover {
-        background-color: rgb(11, 198, 179);
+        background-color: var(--primary);
     }
 
     button {
-        color: #eee;
-        background-color: rgb(11, 198, 179);
+        color: var(--text);
+        background-color: var(--primary);
     }
 
     input.form-button {
-        color: #eee;
-        background-color: rgb(11, 198, 179);
+        color: var(--text);
+        background-color: var(--primary);
     }
 
     input.clear-button {
-        color: #eee;
-        background-color: maroon;
+        color: var(--text);
+        background-color: var(--secondary);
     }
 
     div.zero-warning {
-        color: goldenrod;
+        color: var(--accent);
     }
 
     
     .footer {
-        color: #eee;
+        color: var(--text);
         text-align: center;
     }
 
