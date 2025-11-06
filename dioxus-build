@@ -4,6 +4,10 @@ set -e -x
 
 dx bundle --release --platform web "$@"
 
+ls -la target
+ls -la target/dx/dan-codes-badly
+ls -la target/dx/dan-codes-badly/release/web/public
+
 # Cloudflare Pages and Cloudflare Workers allow configuration of redirects and
 # additional headers for static assets. These are created using special files in
 # the top-level static asset directory (the directory containing `index.html`).
@@ -18,9 +22,9 @@ dx bundle --release --platform web "$@"
 # this path to the favicon file stored in the `assets` directory.
 
 # Find the hashed name of the icon:
-favicon=`ls target/dx/dan-codes-badly/release/web/public/assets/favicon-*.ico | head -n 1 | xargs -- basename`
+favicon=`ls dan-codes-badly/target/dx/dan-codes-badly/release/web/public/assets/favicon-*.ico | head -n 1 | xargs -- basename`
 # Create a redirection to send `/favicon.ico` to the web path of the hashed icon:
-cat > target/dx/dan-codes-badly/release/web/public/_redirects <<EOF
+cat > dan-codes-badly/target/dx/dan-codes-badly/release/web/public/_redirects <<EOF
 /favicon.ico /assets/${favicon}
 EOF
 
@@ -30,7 +34,7 @@ EOF
 # Files in the `assets` directory include a content-based hash in the name.
 # Add a `Cache-Control` header to allow caches to provide these files for up to
 # 6 months without revalidating.
-cat > target/dx/dan-codes-badly/release/web/public/_headers <<EOF
+cat > dan-codes-badly/target/dx/dan-codes-badly/release/web/public/_headers <<EOF
 /assets/*
     Cache-Control: public, max-age=15552000, immutable
 EOF
@@ -40,7 +44,7 @@ EOF
 
 # Add a valid `/robots.txt` file so crawlers do not try to parse `index.html`
 # for crawling permissions. Change this if you want crawlers to index your site.
-cat > target/dx/dan-codes-badly/release/web/public/robots.txt <<EOF
+cat > dan-codes-badly/target/dx/dan-codes-badly/release/web/public/robots.txt <<EOF
 User-agent: *
 Disallow: /
 EOF
