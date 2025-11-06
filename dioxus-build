@@ -7,6 +7,7 @@ dx bundle --release --platform web "$@"
 ls -la target
 ls -la target/dx/dan-codes-badly
 ls -la target/dx/dan-codes-badly/release/web/public
+ls -la target/dx/dan-codes-badly/release/web/public/assets
 
 # Cloudflare Pages and Cloudflare Workers allow configuration of redirects and
 # additional headers for static assets. These are created using special files in
