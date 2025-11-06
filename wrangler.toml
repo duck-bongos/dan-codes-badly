@@ -1,0 +1,3 @@
+name = "protein-comparison"
+pages_build_output_dir = "target/dx/release/web"
+compatibility_date = "2025-10-25"
